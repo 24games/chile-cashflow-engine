@@ -82,7 +82,7 @@ const Index = () => {
                   <img
                     src="/chile.png"
                     alt="Chile iGaming"
-                    className="w-full h-auto max-w-lg object-contain"
+                    className="w-full h-auto max-w-lg max-h-[560px] object-contain"
                   />
                 </div>
               </div>
