@@ -1,10 +1,11 @@
-import { Home, PieChart, DollarSign, Users, MessageSquare } from "lucide-react";
+import { Home, PieChart, DollarSign, Users, MessageSquare, Zap, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
+import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -16,70 +17,92 @@ const Index = () => {
     revenue: "",
   });
 
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast.success("Mensagem enviada! Em breve nosso gerente entrará em contato.");
     setFormData({ name: "", phone: "", email: "", niche: "", revenue: "" });
   };
 
+  const scrollToNext = () => {
+    api?.scrollNext();
+  };
+
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Section 1: Hero */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="max-w-6xl w-full">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              O Chile é o <span className="neon-text">próximo grande palco</span> do iGaming
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-              A 24 Games tem tudo que você precisa para dominar o mercado de esports
-            </p>
-          </div>
+    <div className="min-h-screen bg-background text-foreground overflow-hidden">
+      <Carousel setApi={setApi} className="w-full h-screen" opts={{ align: "start", loop: false, watchDrag: false }}>
+        <CarouselContent className="h-screen">
+          {/* Section 1: Hero - New Design */}
+          <CarouselItem className="h-screen">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 relative overflow-y-auto">
+              <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 md:gap-12 items-center my-auto">
+                {/* Left Content */}
+                <div className="space-y-4 md:space-y-8">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border-2 border-primary bg-primary/10">
+                    <Zap className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+                    <span className="text-sm md:text-base text-primary font-semibold">Mentoria Individual</span>
+                  </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <Home className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-bold mb-3">CASA NOVA</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Faça parte do lançamento de uma nova casa de apostas no Chile – um projeto com grande investimento e
-                gestão do grupo por trás de algumas das maiores operações iGaming do Brasil.
-              </p>
-            </Card>
+                  <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight">
+                    O Chile é o <span className="neon-text">próximo grande palco</span> do iGaming
+                  </h1>
 
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <PieChart className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-bold mb-3">DEAL AGRESSIVO</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Diferente do Brasil, no Chile temos menos impostos e taxas de serviço, por isso conseguimos oferecer{" "}
-                <span className="neon-text font-bold">80% do REV para nossos afiliados</span>.
-              </p>
-            </Card>
+                  <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
+                    A 24 Games tem tudo que você precisa para dominar o mercado de esports
+                  </p>
 
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <DollarSign className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-bold mb-3">CPA NEGATIVO</h3>
-              <p className="text-muted-foreground leading-relaxed">
-                Além do deal de <span className="neon-text font-bold">FULL REV</span>, você pode começar direto com{" "}
-                <span className="neon-text font-bold">CPA negativo</span> 10/30 e escalar rápido.
-              </p>
-            </Card>
-          </div>
-        </div>
-      </section>
+                  <Button
+                    onClick={scrollToNext}
+                    size="lg"
+                    className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6 group"
+                  >
+                    Quero entender como funciona
+                    <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </div>
 
-      {/* Section 2: What You Get */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="max-w-6xl w-full">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                {/* Right Image */}
+                <div className="relative hidden md:flex items-center justify-center">
+                  <img
+                    src="/chile.png"
+                    alt="Chile iGaming"
+                    className="w-full h-auto max-w-lg object-contain"
+                  />
+                </div>
+              </div>
+            </section>
+          </CarouselItem>
+
+          {/* Section 2: What You Get */}
+          <CarouselItem className="h-screen">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-6xl w-full my-auto">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               O que você recebe na <span className="neon-text">parceria 24Games</span>
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg md:text-xl text-muted-foreground">
               Tudo que você precisa para começar a faturar em dólar.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-4 md:gap-8">
             {[
               {
                 title: "Funis validados e prontos pra rodar",
@@ -101,181 +124,211 @@ const Index = () => {
                 title: "Financiamento de tráfego",
                 description: "Para afiliados de alta performance: investimos no seu crescimento",
               },
+              {
+                title: "Conectamos Experts a você",
+                description: "Seu único trabalho é copiar os funis",
+              },
             ].map((item, index) => (
               <Card
                 key={index}
-                className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300"
+                className="neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300"
               >
-                <div className="flex items-start gap-4">
+                <div className="flex items-start gap-3 md:gap-4">
                   <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
                   <div>
-                    <h3 className="text-xl font-bold mb-2 neon-text">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
+                    <h3 className="text-lg md:text-xl font-bold mb-2 neon-text">{item.title}</h3>
+                    <p className="text-lg md:text-xl text">{item.description}</p>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
 
-          <div className="text-center mt-12">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-lg px-8 py-6">
+          <div className="text-center mt-8 md:mt-12">
+            <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
               Quero acesso aos funis 🔗
             </Button>
           </div>
         </div>
-      </section>
+            </section>
+          </CarouselItem>
 
-      {/* Section 3: How It Works */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="max-w-4xl w-full">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          {/* Section 3: How It Works */}
+          <CarouselItem className="h-screen">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-4xl w-full my-auto">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Como funciona</span>
             </h2>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-4 md:space-y-8">
             {[
               {
                 step: "1",
-                title: "Receba seus links com CPA negativo e 80% revshare",
+                title: "Receba seus links com CPA negativo e 80% revshare. Dois modelos de comissão simultâneos para maximizar seus ganhos",
                 description: "Dois modelos de comissão simultâneos para maximizar seus ganhos",
               },
               {
                 step: "2",
-                title: "Aplique os funis validados no mercado chileno",
+                title: "Aplique os funis validados no mercado chileno, Estruturas prontas e testadas que já geraram resultados comprovados",
                 description: "Estruturas prontas e testadas que já geraram resultados comprovados",
               },
               {
                 step: "3",
-                title: "Receba em dólar via cripto, sem travas",
-                description: "Pagamentos quinzenais direto na sua wallet, zero burocracia",
+                title: "Pagamento D15 em dólares. Pagamentos quinzenais direto na sua wallet, zero burocracia",
+                description: "",
               },
             ].map((item) => (
               <Card
                 key={item.step}
-                className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300"
+                className="neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300"
               >
-                <div className="flex items-start gap-6">
-                  <div className="w-16 h-16 rounded-full border-2 border-primary flex items-center justify-center flex-shrink-0">
-                    <span className="text-3xl font-bold neon-text">{item.step}</span>
+                <div className="flex items-start gap-4 md:gap-6">
+                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-primary flex items-center justify-center flex-shrink-0">
+                    <span className="text-2xl md:text-3xl font-bold neon-text">{item.step}</span>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-muted-foreground text-lg">{item.description}</p>
+                    <h3 className="text-lg md:text-2xl font-bold mb-2">{item.title}</h3>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
 
-          <Card className="neon-border bg-card-bg p-8 mt-12">
-            <h3 className="text-2xl font-bold mb-4 neon-text">Para grandes players:</h3>
-            <p className="text-lg text-muted-foreground">
-              Financiamos seu tráfego e conectamos você a experts de alta performance.
-            </p>
+          <Card className="neon-border bg-card-bg p-6 md:p-8 mt-8 md:mt-12">
+            <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 neon-text">Para grandes players: Financiamos seu tráfego e conectamos você a experts de alta performance.</h3>
           </Card>
 
-          <div className="text-center mt-12">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-lg px-8 py-6">
+          <div className="text-center mt-8 md:mt-12">
+            <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
               Quero operar no Chile 💸
             </Button>
           </div>
         </div>
-      </section>
+            </section>
+          </CarouselItem>
 
-      {/* Section 4: Results */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="max-w-6xl w-full">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          {/* Section 4: Results */}
+          <CarouselItem className="h-screen">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-6xl w-full my-auto">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Resultados reais</span>
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-lg md:text-xl text-muted-foreground">
               Depoimentos de quem aplicou a estrutura 24Games e escalaram no Chile.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <Users className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Igor Business</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                "Com a estrutura da 24Games consegui escalar minha operação no Chile em menos de 2 meses. Os funis
-                validados e o suporte fizeram toda a diferença."
-              </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {/* Video 1 */}
+            <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
+              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
+                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 1</p>
+                </div>
+              </div>
             </Card>
 
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <Users className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-2xl font-bold mb-4">Samuel Lau</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                "Deal agressivo e pagamentos em dia. Consegui replicar a estratégia que funcionava no Brasil e
-                multiplicar os resultados no mercado chileno."
-              </p>
+            {/* Video 2 */}
+            <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
+              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
+                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 2</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Video 3 */}
+            <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
+              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
+                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 3</p>
+                </div>
+              </div>
+            </Card>
+
+            {/* Video 4 */}
+            <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
+              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
+                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 4</p>
+                </div>
+              </div>
             </Card>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mt-8">
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <h4 className="text-xl font-bold mb-3 neon-text">📊 Jornada do lead</h4>
-              <p className="text-muted-foreground">Veja como os funis convertem do primeiro clique até o depósito</p>
-            </Card>
-
-            <Card className="neon-border bg-card-bg p-8 hover:neon-glow transition-all duration-300">
-              <h4 className="text-xl font-bold mb-3 neon-text">💰 Análise real de faturamento</h4>
-              <p className="text-muted-foreground">Dados reais de performance e comissões pagas aos parceiros</p>
-            </Card>
+          <div className="text-center mt-8 md:mt-12">
+            <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+              Quero ver quem vai me guiar 👤
+            </Button>
           </div>
         </div>
-      </section>
+            </section>
+          </CarouselItem>
 
-      {/* Section 5: Who Will Guide You */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="max-w-4xl w-full">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          {/* Section 5: Who Will Guide You */}
+          <CarouselItem className="h-screen">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-4xl w-full my-auto">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Quem vai te guiar</span>
             </h2>
           </div>
 
-          <Card className="neon-border bg-card-bg p-12 hover:neon-glow transition-all duration-300">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              <div className="w-32 h-32 rounded-full border-4 border-primary flex items-center justify-center flex-shrink-0">
-                <Users className="w-16 h-16 text-primary" />
+          <Card className="neon-border bg-card-bg p-8 md:p-12 hover:neon-glow transition-all duration-300">
+            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-primary flex items-center justify-center flex-shrink-0">
+                <Users className="w-12 h-12 md:w-16 md:h-16 text-primary" />
               </div>
               <div className="text-center md:text-left">
-                <h3 className="text-3xl font-bold mb-2 neon-text">Walter Viterbo</h3>
-                <p className="text-xl text-muted-foreground mb-4">CMO e Fundador da 24Games</p>
-                <p className="text-lg text-muted-foreground leading-relaxed">
+                <h3 className="text-2xl md:text-3xl font-bold mb-2 neon-text">Walter Viterbo</h3>
+                <p className="text-lg md:text-xl text-muted-foreground mb-3 md:mb-4">CMO e Fundador da 24Games</p>
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                   Responsável por estratégias nas maiores casas do Brasil:{" "}
                   <span className="text-foreground font-semibold">
                     EstrelaBet, Novibet, Bet7k e EsportivaBet
                   </span>
-                  . Agora lidera a expansão internacional da 24Games pro Chile.
+                  . Agora lidera a expansão internacional da 24Games pro Chile. <br></br><br></br>Com mais de 25 milhões de reais faturados e 4 anos de atuação no mercado de igamming, a Blead esta no pódium de operação de afiliado na américa latina e europa. Você vai ter a oportunidade brutal de aprender exatamente os mesmos funis e detalhes que fazem a Blead ser destaque no mercado.
                 </p>
               </div>
             </div>
           </Card>
-        </div>
-      </section>
 
-      {/* Section 6: Contact Form */}
-      <section className="min-h-screen flex items-center justify-center px-4 py-20">
-        <div className="max-w-2xl w-full">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
+          <div className="text-center mt-8 md:mt-12">
+            <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+              Quero falar com o gerente 💬
+            </Button>
+          </div>
+        </div>
+            </section>
+          </CarouselItem>
+
+          {/* Section 6: Contact Form */}
+          <CarouselItem className="h-screen">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-2xl w-full my-auto">
+          <div className="text-center mb-8 md:mb-16">
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Fale com o gerente de contas</span>
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-base md:text-xl text-muted-foreground">
               Receba seus links, funis e suporte pra iniciar sua operação hoje mesmo.
             </p>
           </div>
 
-          <Card className="neon-border bg-card-bg p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <Card className="neon-border bg-card-bg p-6 md:p-8">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div>
-                <Label htmlFor="name" className="text-lg">
+                <Label htmlFor="name" className="text-base md:text-lg">
                   Nome
                 </Label>
                 <Input
@@ -288,7 +341,7 @@ const Index = () => {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-lg">
+                <Label htmlFor="phone" className="text-base md:text-lg">
                   Telefone
                 </Label>
                 <Input
@@ -302,7 +355,7 @@ const Index = () => {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-lg">
+                <Label htmlFor="email" className="text-base md:text-lg">
                   E-mail
                 </Label>
                 <Input
@@ -316,7 +369,7 @@ const Index = () => {
               </div>
 
               <div>
-                <Label htmlFor="niche" className="text-lg">
+                <Label htmlFor="niche" className="text-base md:text-lg">
                   Nicho
                 </Label>
                 <Select value={formData.niche} onValueChange={(value) => setFormData({ ...formData, niche: value })}>
@@ -333,7 +386,7 @@ const Index = () => {
               </div>
 
               <div>
-                <Label htmlFor="revenue" className="text-lg">
+                <Label htmlFor="revenue" className="text-base md:text-lg">
                   Faturamento mensal
                 </Label>
                 <Input
@@ -349,20 +402,37 @@ const Index = () => {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-primary text-primary-foreground hover:neon-glow text-lg py-6"
+                className="w-full bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg py-5 md:py-6"
               >
                 Quero falar com o gerente de contas 🚀
               </Button>
             </form>
           </Card>
 
-          <div className="text-center mt-12">
-            <p className="text-muted-foreground">
+          <div className="text-center mt-8 md:mt-12">
+            <p className="text-sm md:text-base text-muted-foreground">
               © 2024 24Games - Dominando o mercado chileno de iGaming
             </p>
           </div>
         </div>
-      </section>
+            </section>
+          </CarouselItem>
+        </CarouselContent>
+
+        {/* Navigation Dots */}
+        <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-1.5 md:gap-2 z-50 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full">
+          {Array.from({ length: count }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => api?.scrollTo(index)}
+              className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                index === current ? "w-6 md:w-8 bg-primary" : "w-1.5 md:w-2 bg-primary/30 hover:bg-primary/50"
+              }`}
+              aria-label={`Ir para seção ${index + 1}`}
+            />
+          ))}
+        </div>
+      </Carousel>
     </div>
   );
 };
