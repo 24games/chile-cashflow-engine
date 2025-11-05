@@ -34,10 +34,32 @@ const Index = () => {
     });
   }, [api]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Mensagem enviada! Em breve nosso gerente entrará em contato.");
-    setFormData({ name: "", phone: "", email: "", niche: "", revenue: "" });
+    
+    try {
+      const response = await fetch("https://blead-n8n-docker.y1jnlb.easypanel.host/webhook/24br", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        toast.success("Mensagem enviada! Redirecionando para o WhatsApp...");
+        setFormData({ name: "", phone: "", email: "", niche: "", revenue: "" });
+        
+        // Redirecionar para WhatsApp após 1 segundo
+        setTimeout(() => {
+          window.open("https://wa.me/56920587511", "_blank");
+        }, 1000);
+      } else {
+        toast.error("Erro ao enviar mensagem. Tente novamente.");
+      }
+    } catch (error) {
+      toast.error("Erro ao enviar mensagem. Tente novamente.");
+    }
   };
 
   const scrollToNext = () => {
@@ -46,27 +68,22 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
-      <Carousel setApi={setApi} className="w-full h-screen" opts={{ align: "start", loop: false, watchDrag: false }}>
+      <Carousel setApi={setApi} className="w-full h-screen" opts={{ align: "start", loop: false, watchDrag: false, duration: 0 }}>
         <CarouselContent className="h-screen">
           {/* Section 1: Hero - New Design */}
           <CarouselItem className="h-screen">
             <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 relative overflow-y-auto">
-              <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 md:gap-12 items-center my-auto">
+              <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                 {/* Left Content */}
                 <div className="space-y-4 md:space-y-8">
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border-2 border-primary bg-primary/10">
                     <Zap className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-                    <span className="text-sm md:text-base text-primary font-semibold">Mentoria Individual</span>
+                    <span className="text-sm md:text-base text-primary font-semibold">Ganhe em dolar c/ funis validados</span>
                   </div>
 
                   <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight">
                     O Chile é o <span className="neon-text">próximo grande palco</span> do iGaming
                   </h1>
-
-                  <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
-                    A 24 Games tem tudo que você precisa para dominar o mercado de esports
-                  </p>
-
                   <Button
                     onClick={scrollToNext}
                     size="lg"
@@ -78,11 +95,11 @@ const Index = () => {
                 </div>
 
                 {/* Right Image */}
-                <div className="relative hidden md:flex items-center justify-center">
+                <div className="relative flex items-center justify-center mt-8 md:mt-0">
                   <img
                     src="/chile.png"
                     alt="Chile iGaming"
-                    className="w-full h-auto max-w-lg max-h-[560px] object-contain"
+                    className="w-full h-auto max-w-xs md:max-w-lg max-h-[300px] md:max-h-[560px] object-contain"
                   />
                 </div>
               </div>
@@ -91,8 +108,8 @@ const Index = () => {
 
           {/* Section 2: What You Get */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
-        <div className="max-w-6xl w-full my-auto">
+            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-6xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               O que você recebe na <span className="neon-text">parceria 24Games</span>
@@ -155,8 +172,8 @@ const Index = () => {
 
           {/* Section 3: How It Works */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
-        <div className="max-w-4xl w-full my-auto">
+            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-4xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Como funciona</span>
@@ -172,12 +189,12 @@ const Index = () => {
               },
               {
                 step: "2",
-                title: "Aplique os funis validados no mercado chileno, Estruturas prontas e testadas que já geraram resultados comprovados",
+                title: "Aplique os funis que nós validamos no mercado chileno, estruturas prontas e testadas que já geraram resultados comprovados",
                 description: "Estruturas prontas e testadas que já geraram resultados comprovados",
               },
               {
                 step: "3",
-                title: "Pagamento D15 em dólares. Pagamentos quinzenais direto na sua wallet, zero burocracia",
+                title: "Pagamento D15 em dólares. Pagamentos quinzenais direto na sua wallet, zero burocracia e zero imposto.",
                 description: "",
               },
             ].map((item) => (
@@ -212,14 +229,14 @@ const Index = () => {
 
           {/* Section 4: Results */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
-        <div className="max-w-6xl w-full my-auto">
+            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-6xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Resultados reais</span>
             </h2>
             <p className="text-lg md:text-xl text-muted-foreground">
-              Depoimentos de quem aplicou a estrutura 24Games e escalaram no Chile.
+              Depoimentos de quem já tá escalando no chile como afiliado.
             </p>
           </div>
 
@@ -276,28 +293,33 @@ const Index = () => {
 
           {/* Section 5: Who Will Guide You */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
-        <div className="max-w-4xl w-full my-auto">
+            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-4xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Quem vai te guiar</span>
             </h2>
           </div>
 
-          <Card className="neon-border bg-card-bg p-8 md:p-12 hover:neon-glow transition-all duration-300">
-            <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-primary flex items-center justify-center flex-shrink-0">
-                <Users className="w-12 h-12 md:w-16 md:h-16 text-primary" />
+          <Card className="neon-border bg-card-bg hover:neon-glow transition-all duration-300 overflow-hidden">
+            <div className="flex flex-col md:flex-row items-center md:items-stretch">
+              <div className="w-full md:w-48 lg:w-64 h-48 md:h-auto flex-shrink-0">
+                <img 
+                  src="/walterrr.webp" 
+                  alt="Walter Viterbo" 
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center 20%' }}
+                />
               </div>
-              <div className="text-center md:text-left">
+              <div className="p-8 md:p-12">
                 <h3 className="text-2xl md:text-3xl font-bold mb-2 neon-text">Walter Viterbo</h3>
-                <p className="text-lg md:text-xl text-muted-foreground mb-3 md:mb-4">CMO e Fundador da 24Games</p>
+                <p className="text-lg md:text-xl text-muted-foreground mb-3 md:mb-4">CMO e Fundador da Agência Blead</p>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                   Responsável por estratégias nas maiores casas do Brasil:{" "}
                   <span className="text-foreground font-semibold">
                     EstrelaBet, Novibet, Bet7k e EsportivaBet
                   </span>
-                  . Agora lidera a expansão internacional da 24Games pro Chile. <br></br><br></br>Com mais de 25 milhões de reais faturados e 4 anos de atuação no mercado de igamming, a Blead esta no pódium de operação de afiliado na américa latina e europa. Você vai ter a oportunidade brutal de aprender exatamente os mesmos funis e detalhes que fazem a Blead ser destaque no mercado.
+                  . Agora lidera a expansão internacional da 24Games pro Chile. <br></br><br></br>Com mais de 1 bilhão de reais gerados em depósito e 4 anos de atuação no mercado de igamming. A Blead é uma das agências líderes mundiais no Brasil, América Latina e Europa
                 </p>
               </div>
             </div>
@@ -314,11 +336,11 @@ const Index = () => {
 
           {/* Section 6: Contact Form */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 overflow-y-auto">
-        <div className="max-w-2xl w-full my-auto">
+            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+        <div className="max-w-2xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
-              <span className="neon-text">Fale com o gerente de contas</span>
+              <span className="neon-text">Só falta liberar seu Deal e começar!</span>
             </h2>
             <p className="text-base md:text-xl text-muted-foreground">
               Receba seus links, funis e suporte pra iniciar sua operação hoje mesmo.
@@ -389,14 +411,18 @@ const Index = () => {
                 <Label htmlFor="revenue" className="text-base md:text-lg">
                   Faturamento mensal
                 </Label>
-                <Input
-                  id="revenue"
-                  value={formData.revenue}
-                  onChange={(e) => setFormData({ ...formData, revenue: e.target.value })}
-                  required
-                  placeholder="Ex: R$ 50.000"
-                  className="mt-2 bg-input border-card-border focus:border-primary"
-                />
+                <Select value={formData.revenue} onValueChange={(value) => setFormData({ ...formData, revenue: value })} required>
+                  <SelectTrigger className="mt-2 bg-input border-card-border focus:border-primary">
+                    <SelectValue placeholder="Selecione seu faturamento" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Até 50k">Até 50k</SelectItem>
+                    <SelectItem value="Até 100k">Até 100k</SelectItem>
+                    <SelectItem value="Até 250k">Até 250k</SelectItem>
+                    <SelectItem value="Até 500k">Até 500k</SelectItem>
+                    <SelectItem value="+ de 500k">+ de 500k</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <Button
@@ -404,7 +430,7 @@ const Index = () => {
                 size="lg"
                 className="w-full bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg py-5 md:py-6"
               >
-                Quero falar com o gerente de contas 🚀
+                Quero ativar meu link de afiliado 🚀
               </Button>
             </form>
           </Card>
