@@ -69,7 +69,7 @@ const Index = () => {
         
         // Redirecionar para WhatsApp após 1 segundo
         setTimeout(() => {
-          window.open("https://wa.me/56920587511", "_blank");
+          window.open("https://wa.me/5571991127099", "_blank");
         }, 1000);
       } else {
         toast.error("Erro ao enviar mensagem. Tente novamente.");
