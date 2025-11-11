@@ -251,45 +251,50 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {/* Video 1 */}
             <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
-              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
-                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 1</p>
-                </div>
-              </div>
+              <div 
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    <div id="ifr_69127bc92e63132427946e77_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
+                      <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_69127bc92e63132427946e77_aspect">
+                        <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_69127bc92e63132427946e77" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null, this.src='https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69127bc92e63132427946e77/v4/embed.html' +(location.search||'?') +'&vl=' +encodeURIComponent(location.href)"></iframe>
+                      </div>
+                    </div>
+                  `
+                }}
+              />
             </Card>
 
             {/* Video 2 */}
             <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
-              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
-                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 2</p>
-                </div>
-              </div>
+              <div 
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    <div id="ifr_69127c42ef0e44b18af5f8b4_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
+                      <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_69127c42ef0e44b18af5f8b4_aspect">
+                        <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_69127c42ef0e44b18af5f8b4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null, this.src='https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69127c42ef0e44b18af5f8b4/v4/embed.html' +(location.search||'?') +'&vl=' +encodeURIComponent(location.href)"></iframe>
+                      </div>
+                    </div>
+                  `
+                }}
+              />
             </Card>
 
             {/* Video 3 */}
             <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
-              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
-                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 3</p>
-                </div>
-              </div>
-            </Card>
-
-            {/* Video 4 */}
-            <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
-              <div className="aspect-[4/5] bg-muted rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MessageSquare className="w-10 h-10 md:w-12 md:h-12 text-primary mx-auto mb-2" />
-                  <p className="text-xs md:text-sm text-muted-foreground">Vídeo 4</p>
-                </div>
-              </div>
+              <div 
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    <div id="ifr_69127c81fbc86c01038e8b39_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
+                      <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_69127c81fbc86c01038e8b39_aspect">
+                        <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_69127c81fbc86c01038e8b39" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null, this.src='https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69127c81fbc86c01038e8b39/v4/embed.html' +(location.search||'?') +'&vl=' +encodeURIComponent(location.href)"></iframe>
+                      </div>
+                    </div>
+                  `
+                }}
+              />
             </Card>
           </div>
 
