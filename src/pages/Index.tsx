@@ -7,14 +7,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
+import { useParams } from "react-router-dom";
 
 const Index = () => {
+  const { creative } = useParams();
+  
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     niche: "",
     revenue: "",
+    creative: creative || "direct",
   });
 
   const [api, setApi] = useState<CarouselApi>();
@@ -31,6 +35,13 @@ const Index = () => {
 
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
+      
+      // Scroll para o topo da seção quando mudar
+      const sections = document.querySelectorAll('section');
+      const currentSection = sections[api.selectedScrollSnap()];
+      if (currentSection) {
+        currentSection.scrollTop = 0;
+      }
     });
   }, [api]);
 
@@ -48,7 +59,7 @@ const Index = () => {
 
       if (response.ok) {
         toast.success("Mensagem enviada! Redirecionando para o WhatsApp...");
-        setFormData({ name: "", phone: "", email: "", niche: "", revenue: "" });
+        setFormData({ name: "", phone: "", email: "", niche: "", revenue: "", creative: creative || "direct" });
         
         // Redirecionar para WhatsApp após 1 segundo
         setTimeout(() => {
@@ -72,7 +83,7 @@ const Index = () => {
         <CarouselContent className="h-screen">
           {/* Section 1: Hero - New Design */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 relative overflow-y-auto">
+            <section className="h-screen flex items-center justify-center px-4 py-8 md:py-20 relative">
               <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                 {/* Left Content */}
                 <div className="space-y-4 md:space-y-8">
@@ -108,7 +119,7 @@ const Index = () => {
 
           {/* Section 2: What You Get */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
         <div className="max-w-6xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
@@ -172,7 +183,7 @@ const Index = () => {
 
           {/* Section 3: How It Works */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
         <div className="max-w-4xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
@@ -229,7 +240,7 @@ const Index = () => {
 
           {/* Section 4: Results */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
         <div className="max-w-6xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
@@ -293,7 +304,7 @@ const Index = () => {
 
           {/* Section 5: Who Will Guide You */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
         <div className="max-w-4xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
@@ -336,7 +347,7 @@ const Index = () => {
 
           {/* Section 6: Contact Form */}
           <CarouselItem className="h-screen">
-            <section className="h-screen flex items-start justify-center px-4 py-8 md:py-20 overflow-y-auto">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
         <div className="max-w-2xl w-full">
           <div className="text-center mb-8 md:mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
