@@ -1,4 +1,4 @@
-import { Home, PieChart, DollarSign, Users, MessageSquare, Zap, ArrowRight, ChevronDown, MessageCircle } from "lucide-react";
+import { Home, PieChart, DollarSign, Users, MessageSquare, Zap, ArrowRight, ChevronDown, MessageCircle, CheckCircle2, Wallet, Headphones, TrendingUp, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -139,48 +139,59 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-4 md:gap-8">
             {[
               {
+                icon: CheckCircle2,
                 title: "Funis validados e prontos pra rodar",
                 description: "Estrutura completa testada e otimizada para o mercado chileno",
               },
               {
+                icon: DollarSign,
                 title: "Dois deals simultâneos",
-                description: "CPA negativo 10/30 e 80% revshare ao mesmo tempo",
+                description: "CPA negativo de até 30$ USD e 80% revshare ao mesmo tempo",
               },
               {
+                icon: Headphones,
                 title: "Suporte direto",
                 description: "Gerente de contas dedicado para suas dúvidas e otimizações",
               },
               {
+                icon: Wallet,
                 title: "Pagamentos quinzenais em cripto",
                 description: "Receba em dólar via cripto com 0% de imposto",
               },
               {
+                icon: TrendingUp,
                 title: "Financiamento de tráfego",
                 description: "Para afiliados de alta performance: investimos no seu crescimento",
               },
               {
+                icon: Link2,
                 title: "Conectamos Experts a você",
                 description: "Seu único trabalho é copiar os funis",
               },
-            ].map((item, index) => (
-              <Card
-                key={index}
-                className="neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300"
-              >
-                <div className="flex items-start gap-3 md:gap-4">
-                  <div className="w-2 h-2 rounded-full bg-primary mt-2 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-lg md:text-xl font-bold mb-2 neon-text">{item.title}</h3>
-                    <p className="text-lg md:text-xl text">{item.description}</p>
+            ].map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <Card
+                  key={index}
+                  className="neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300"
+                >
+                  <div className="flex items-start gap-3 md:gap-4">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg md:text-xl font-bold mb-2 neon-text">{item.title}</h3>
+                      <p className="text-lg md:text-xl text">{item.description}</p>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
 
           <div className="text-center mt-8 md:mt-12">
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
-              Quero acesso aos funis 🔗
+              Próximo Passo 💸
             </Button>
           </div>
         </div>
@@ -190,14 +201,14 @@ const Index = () => {
           {/* Section 3: How It Works */}
           <CarouselItem className="h-screen">
             <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
-        <div className="max-w-4xl w-full">
-          <div className="text-center mb-8 md:mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
+        <div className="max-w-3xl w-full">
+          <div className="text-center mb-6 md:mb-10">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">
               <span className="neon-text">Como funciona</span>
             </h2>
           </div>
 
-          <div className="space-y-4 md:space-y-8">
+          <div className="space-y-3 md:space-y-5">
             {[
               {
                 step: "1",
@@ -217,27 +228,27 @@ const Index = () => {
             ].map((item) => (
               <Card
                 key={item.step}
-                className="neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300"
+                className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300"
               >
-                <div className="flex items-start gap-4 md:gap-6">
-                  <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border-2 border-primary flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl md:text-3xl font-bold neon-text">{item.step}</span>
+                <div className="flex items-start gap-3 md:gap-4">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-full border-2 border-primary flex items-center justify-center flex-shrink-0">
+                    <span className="text-xl md:text-2xl font-bold neon-text">{item.step}</span>
                   </div>
                   <div>
-                    <h3 className="text-lg md:text-2xl font-bold mb-2">{item.title}</h3>
+                    <h3 className="text-base md:text-lg font-bold mb-1">{item.title}</h3>
                   </div>
                 </div>
               </Card>
             ))}
           </div>
 
-          <Card className="neon-border bg-card-bg p-6 md:p-8 mt-8 md:mt-12">
-            <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 neon-text">Para grandes players: Financiamos seu tráfego e conectamos você a experts de alta performance.</h3>
+          <Card className="neon-border bg-card-bg p-4 md:p-6 mt-6 md:mt-8">
+            <h3 className="text-base md:text-lg font-bold mb-2 md:mb-3 neon-text">Para grandes players: Financiamos seu tráfego e conectamos você a experts de alta performance.</h3>
           </Card>
 
           <div className="text-center mt-8 md:mt-12">
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
-              Quero operar no Chile 💸
+              Próximo Passo 💸
             </Button>
           </div>
         </div>
@@ -257,7 +268,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
             {/* Video 1 */}
             <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
               <div 
@@ -266,21 +277,6 @@ const Index = () => {
                     <div id="ifr_69127bc92e63132427946e77_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
                       <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_69127bc92e63132427946e77_aspect">
                         <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_69127bc92e63132427946e77" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null, this.src='https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69127bc92e63132427946e77/v4/embed.html' +(location.search||'?') +'&vl=' +encodeURIComponent(location.href)"></iframe>
-                      </div>
-                    </div>
-                  `
-                }}
-              />
-            </Card>
-
-            {/* Video 2 */}
-            <Card className="neon-border bg-card-bg p-4 md:p-6 hover:neon-glow transition-all duration-300">
-              <div 
-                dangerouslySetInnerHTML={{
-                  __html: `
-                    <div id="ifr_69127c42ef0e44b18af5f8b4_wrapper" style="margin: 0 auto; width: 100%; max-width: 400px;">
-                      <div style="position: relative; padding: 177.77777777777777% 0 0 0;" id="ifr_69127c42ef0e44b18af5f8b4_aspect">
-                        <iframe frameborder="0" allowfullscreen src="about:blank" id="ifr_69127c42ef0e44b18af5f8b4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" referrerpolicy="origin" onload="this.onload=null, this.src='https://scripts.converteai.net/af053167-2542-4323-9c93-d010e7938eb5/players/69127c42ef0e44b18af5f8b4/v4/embed.html' +(location.search||'?') +'&vl=' +encodeURIComponent(location.href)"></iframe>
                       </div>
                     </div>
                   `
@@ -306,7 +302,7 @@ const Index = () => {
 
           <div className="text-center mt-8 md:mt-12">
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
-              Quero ver quem vai me guiar 👤
+              Liberar meu link! 👤
             </Button>
           </div>
         </div>
@@ -468,8 +464,8 @@ const Index = () => {
           </CarouselItem>
         </CarouselContent>
 
-        {/* Navigation Dots */}
-        <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 flex gap-1.5 md:gap-2 z-50 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full">
+        {/* Navigation Dots - Fixed at top */}
+        <div className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 flex gap-1.5 md:gap-2 z-50 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full">
           {Array.from({ length: count }).map((_, index) => (
             <button
               key={index}
