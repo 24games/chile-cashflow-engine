@@ -31,11 +31,11 @@ const Section5 = () => {
 
           <Card className="neon-border bg-card-bg hover:neon-glow transition-all duration-300 overflow-hidden animate-scaleIn animation-delay-200">
             <div className="flex flex-col md:flex-row items-center md:items-stretch overflow-hidden">
-              <div className="w-full md:w-48 lg:w-64 h-48 md:h-auto flex-shrink-0">
+              <div className="w-full md:w-48 lg:w-64 h-48 md:h-auto flex-shrink-0 overflow-hidden">
                 <img 
                   src="/walterrr.webp" 
                   alt="Walter - CEO 24Games"
-                  className="w-full h-full object-cover md:object-[center_20%]"
+                  className="w-full h-full object-cover object-[center_30%] md:object-[center_20%]"
                 />
               </div>
               <div className="p-6 md:p-8 flex flex-col justify-center w-full overflow-hidden">
