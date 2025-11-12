@@ -1,4 +1,4 @@
-import { Home, PieChart, DollarSign, Users, MessageSquare, Zap, ArrowRight, ChevronDown, MessageCircle, CheckCircle2, Wallet, Headphones, TrendingUp, Link2 } from "lucide-react";
+import { Home, PieChart, DollarSign, Users, MessageSquare, Zap, ArrowRight, ChevronDown, MessageCircle, CheckCircle2, Wallet, Headphones, TrendingUp, Link2, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -40,13 +40,25 @@ const Index = () => {
     setCurrent(api.selectedScrollSnap());
 
     api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
+      const newIndex = api.selectedScrollSnap();
+      setCurrent(newIndex);
       
       // Scroll para o topo da seção quando mudar
       const sections = document.querySelectorAll('section');
-      const currentSection = sections[api.selectedScrollSnap()];
+      const currentSection = sections[newIndex];
       if (currentSection) {
         currentSection.scrollTop = 0;
+        
+        // Reativar animações removendo e readicionando as classes
+        setTimeout(() => {
+          const animatedElements = currentSection.querySelectorAll('[class*="animate-"]');
+          animatedElements.forEach((element) => {
+            const classes = element.className;
+            element.className = classes.replace(/animate-\w+/g, '');
+            // Force reflow
+            element.className = classes;
+          });
+        }, 50);
       }
     });
   }, [api]);
@@ -83,6 +95,10 @@ const Index = () => {
     api?.scrollNext();
   };
 
+  const scrollToPrev = () => {
+    api?.scrollPrev();
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       <Carousel setApi={setApi} className="w-full h-screen" opts={{ align: "start", loop: false, watchDrag: false, duration: 0 }}>
@@ -93,26 +109,26 @@ const Index = () => {
               <div className="max-w-7xl w-full grid md:grid-cols-2 gap-8 md:gap-12 items-center">
                 {/* Left Content */}
                 <div className="space-y-4 md:space-y-8">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full border-2 border-primary bg-primary/10">
-                    <Zap className="w-4 h-4 md:w-5 md:h-5 text-primary" />
-                    <span className="text-sm md:text-base text-primary font-semibold">Ganhe em dolar c/ funis validados</span>
-                  </div>
-
-                  <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold leading-tight">
-                    O Chile é o <span className="neon-text">próximo grande palco</span> do iGaming
+                  <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight animate-fadeInUp">
+                    Opere no Chile com a <span className="neon-text">maior estrutura de afiliação iGaming</span>
                   </h1>
-                  <Button
-                    onClick={scrollToNext}
-                    size="lg"
-                    className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6 group"
-                  >
-                    Quero entender como funciona
-                    <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
-                  </Button>
+                  <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground animate-fadeInUp animation-delay-200">
+                    CPA negativo de até 30$ USD + 80% revshare. Funis validados, suporte dedicado e pagamentos em cripto.
+                  </p>
+                  <div className="animate-fadeInUp animation-delay-400">
+                    <Button
+                      onClick={scrollToNext}
+                      size="lg"
+                      className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6 group"
+                    >
+                      Quero entender como funciona
+                      <ArrowRight className="ml-2 w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Right Image */}
-                <div className="relative flex items-center justify-center mt-8 md:mt-0">
+                <div className="relative flex items-center justify-center mt-8 md:mt-0 animate-fadeIn animation-delay-300">
                   <img
                     src="/chile.png"
                     alt="Chile iGaming"
@@ -125,9 +141,9 @@ const Index = () => {
 
           {/* Section 2: What You Get */}
           <CarouselItem className="h-screen">
-            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20 relative">
         <div className="max-w-6xl w-full">
-          <div className="text-center mb-8 md:mb-16">
+          <div className="text-center mb-8 md:mb-16 animate-fadeInUp">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               O que você recebe na <span className="neon-text">parceria 24Games</span>
             </h2>
@@ -170,10 +186,11 @@ const Index = () => {
               },
             ].map((item, index) => {
               const Icon = item.icon;
+              const delays = ['animation-delay-100', 'animation-delay-200', 'animation-delay-300', 'animation-delay-400', 'animation-delay-500', 'animation-delay-600'];
               return (
                 <Card
                   key={index}
-                  className="neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300"
+                  className={`neon-border bg-card-bg p-6 md:p-8 hover:neon-glow transition-all duration-300 animate-scaleIn ${delays[index]}`}
                 >
                   <div className="flex items-start gap-3 md:gap-4">
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center flex-shrink-0">
@@ -189,7 +206,13 @@ const Index = () => {
             })}
           </div>
 
-          <div className="text-center mt-8 md:mt-12">
+          <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
+            {current > 0 && (
+              <Button onClick={scrollToPrev} size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/20 text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+                <ChevronLeft className="w-5 h-5 mr-2" />
+                Voltar
+              </Button>
+            )}
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
               Próximo Passo 💸
             </Button>
@@ -200,9 +223,9 @@ const Index = () => {
 
           {/* Section 3: How It Works */}
           <CarouselItem className="h-screen">
-            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20 relative">
         <div className="max-w-3xl w-full">
-          <div className="text-center mb-6 md:mb-10">
+          <div className="text-center mb-6 md:mb-10 animate-fadeInUp">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-3 md:mb-4">
               <span className="neon-text">Como funciona</span>
             </h2>
@@ -246,7 +269,13 @@ const Index = () => {
             <h3 className="text-base md:text-lg font-bold mb-2 md:mb-3 neon-text">Para grandes players: Financiamos seu tráfego e conectamos você a experts de alta performance.</h3>
           </Card>
 
-          <div className="text-center mt-8 md:mt-12">
+          <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
+            {current > 0 && (
+              <Button onClick={scrollToPrev} size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/20 text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+                <ChevronLeft className="w-5 h-5 mr-2" />
+                Voltar
+              </Button>
+            )}
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
               Próximo Passo 💸
             </Button>
@@ -257,9 +286,9 @@ const Index = () => {
 
           {/* Section 4: Results */}
           <CarouselItem className="h-screen">
-            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20 relative">
         <div className="max-w-6xl w-full">
-          <div className="text-center mb-8 md:mb-16">
+          <div className="text-center mb-8 md:mb-16 animate-fadeInUp">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Resultados reais</span>
             </h2>
@@ -300,7 +329,13 @@ const Index = () => {
             </Card>
           </div>
 
-          <div className="text-center mt-8 md:mt-12">
+          <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
+            {current > 0 && (
+              <Button onClick={scrollToPrev} size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/20 text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+                <ChevronLeft className="w-5 h-5 mr-2" />
+                Voltar
+              </Button>
+            )}
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
               Liberar meu link! 👤
             </Button>
@@ -311,9 +346,9 @@ const Index = () => {
 
           {/* Section 5: Who Will Guide You */}
           <CarouselItem className="h-screen">
-            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20 relative">
         <div className="max-w-4xl w-full">
-          <div className="text-center mb-8 md:mb-16">
+          <div className="text-center mb-8 md:mb-16 animate-fadeInUp">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Quem vai te guiar</span>
             </h2>
@@ -343,7 +378,13 @@ const Index = () => {
             </div>
           </Card>
 
-          <div className="text-center mt-8 md:mt-12">
+          <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
+            {current > 0 && (
+              <Button onClick={scrollToPrev} size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/20 text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+                <ChevronLeft className="w-5 h-5 mr-2" />
+                Voltar
+              </Button>
+            )}
             <Button onClick={scrollToNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
               Quero falar com o gerente 💬
             </Button>
@@ -354,9 +395,9 @@ const Index = () => {
 
           {/* Section 6: Contact Form */}
           <CarouselItem className="h-screen">
-            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20">
+            <section className="h-screen overflow-y-auto flex items-start justify-center px-4 py-8 md:py-20 relative">
         <div className="max-w-2xl w-full">
-          <div className="text-center mb-8 md:mb-16">
+          <div className="text-center mb-8 md:mb-16 animate-fadeInUp">
             <h2 className="text-3xl md:text-4xl lg:text-6xl font-bold mb-4 md:mb-6">
               <span className="neon-text">Só falta liberar seu Deal e começar!</span>
             </h2>
