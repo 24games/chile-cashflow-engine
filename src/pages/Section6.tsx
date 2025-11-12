@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -27,6 +27,14 @@ const Section6 = () => {
     revenue: "",
     creative: creative || "direct",
   });
+
+  // Atualizar creative quando mudar
+  useEffect(() => {
+    setFormData(prev => ({
+      ...prev,
+      creative: creative || "direct"
+    }));
+  }, [creative]);
 
   const handlePrev = () => {
     const path = creative ? `/${creative}/section-5` : '/section-5';

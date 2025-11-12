@@ -20,6 +20,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          {/* Rotas sem creative - devem vir primeiro */}
           <Route path="/" element={<Section1 />} />
           <Route path="/section-2" element={<Section2 />} />
           <Route path="/section-3" element={<Section3 />} />
@@ -27,13 +28,13 @@ const App = () => (
           <Route path="/section-5" element={<Section5 />} />
           <Route path="/section-6" element={<Section6 />} />
           
-          {/* Rotas com creative */}
-          <Route path="/:creative" element={<Section1 />} />
+          {/* Rotas com creative - rotas específicas antes da genérica */}
           <Route path="/:creative/section-2" element={<Section2 />} />
           <Route path="/:creative/section-3" element={<Section3 />} />
           <Route path="/:creative/section-4" element={<Section4 />} />
           <Route path="/:creative/section-5" element={<Section5 />} />
           <Route path="/:creative/section-6" element={<Section6 />} />
+          <Route path="/:creative" element={<Section1 />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
