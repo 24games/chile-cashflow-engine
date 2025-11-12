@@ -39,7 +39,7 @@ const Section5 = () => {
                 />
               </div>
               <div className="p-6 md:p-8 flex flex-col justify-center">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 neon-text">Walter - CEO 24Games</h3>
+                <h3 className="text-2xl md:text-3xl font-bold mb-4 neon-text">Walter - CMO E Fundador da Agencia Blead</h3>
                 <p className="text-base md:text-lg text-muted-foreground leading-relaxed">
                   Responsável por estratégias nas maiores casas do Brasil:{" "}
                   <span className="text-foreground font-semibold">
