@@ -66,12 +66,12 @@ const Section3 = () => {
             <h3 className="text-base md:text-lg font-bold mb-2 md:mb-3 neon-text">Para grandes players: Financiamos seu tráfego e conectamos você a experts de alta performance.</h3>
           </Card>
 
-          <div className="flex items-center justify-center gap-4 mt-8 md:mt-12">
-            <Button onClick={handlePrev} size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/20 text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
-              <ChevronLeft className="w-5 h-5 mr-2" />
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-8 md:mt-12 w-full px-2">
+            <Button onClick={handlePrev} size="lg" variant="outline" className="w-full sm:w-auto border-primary/50 text-primary hover:bg-primary/20 text-sm md:text-base lg:text-lg px-4 py-4 md:px-6 md:py-5 lg:px-8 lg:py-6">
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Voltar
             </Button>
-            <Button onClick={handleNext} size="lg" className="bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg px-6 py-5 md:px-8 md:py-6">
+            <Button onClick={handleNext} size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:neon-glow text-sm md:text-base lg:text-lg px-4 py-4 md:px-6 md:py-5 lg:px-8 lg:py-6">
               Próximo Passo 💸
             </Button>
           </div>
