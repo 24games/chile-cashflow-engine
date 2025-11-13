@@ -90,12 +90,12 @@ const Section2 = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-8 md:mt-12 w-full px-2">
+                        <Button onClick={handleNext} size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:neon-glow text-sm md:text-base lg:text-lg px-4 py-4 md:px-6 md:py-5 lg:px-8 lg:py-6">
+              Próximo Passo 💸
+            </Button>
             <Button onClick={handlePrev} size="lg" variant="outline" className="w-full sm:w-auto border-primary/50 text-primary hover:bg-primary/20 text-sm md:text-base lg:text-lg px-4 py-4 md:px-6 md:py-5 lg:px-8 lg:py-6">
               <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 mr-2" />
               Voltar
-            </Button>
-            <Button onClick={handleNext} size="lg" className="w-full sm:w-auto bg-primary text-primary-foreground hover:neon-glow text-sm md:text-base lg:text-lg px-4 py-4 md:px-6 md:py-5 lg:px-8 lg:py-6">
-              Próximo Passo 💸
             </Button>
           </div>
         </div>
