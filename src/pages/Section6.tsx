@@ -44,6 +44,12 @@ const Section6 = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validar todos os campos obrigatórios
+    if (!formData.name || !formData.phone || !formData.email || !formData.niche || !formData.revenue) {
+      toast.error("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+    
     try {
       const response = await fetch("https://blead-n8n-docker.y1jnlb.easypanel.host/webhook/24br", {
         method: "POST",
@@ -85,7 +91,7 @@ const Section6 = () => {
           <Card className="neon-border bg-card-bg p-6 md:p-8 animate-scaleIn animation-delay-200">
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
               <div>
-                <Label htmlFor="name" className="text-base md:text-lg">Nome completo</Label>
+                <Label htmlFor="name" className="text-base md:text-lg">Nome completo <span className="text-red-500">*</span></Label>
                 <Input
                   id="name"
                   type="text"
@@ -97,7 +103,7 @@ const Section6 = () => {
               </div>
 
               <div>
-                <Label htmlFor="phone" className="text-base md:text-lg">WhatsApp</Label>
+                <Label htmlFor="phone" className="text-base md:text-lg">WhatsApp <span className="text-red-500">*</span></Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -109,7 +115,7 @@ const Section6 = () => {
               </div>
 
               <div>
-                <Label htmlFor="email" className="text-base md:text-lg">E-mail</Label>
+                <Label htmlFor="email" className="text-base md:text-lg">E-mail <span className="text-red-500">*</span></Label>
                 <Input
                   id="email"
                   type="email"
@@ -121,7 +127,7 @@ const Section6 = () => {
               </div>
 
               <div>
-                <Label htmlFor="niche" className="text-base md:text-lg">Qual seu nicho?</Label>
+                <Label htmlFor="niche" className="text-base md:text-lg">Qual seu nicho? <span className="text-red-500">*</span></Label>
                 <Select value={formData.niche} onValueChange={(value) => setFormData({ ...formData, niche: value })} required>
                   <SelectTrigger className="mt-2 bg-input border-card-border focus:border-primary text-base md:text-lg">
                     <SelectValue placeholder="Selecione seu nicho" />
@@ -137,7 +143,7 @@ const Section6 = () => {
               </div>
 
               <div>
-                <Label htmlFor="revenue" className="text-base md:text-lg">Faturamento mensal</Label>
+                <Label htmlFor="revenue" className="text-base md:text-lg">Faturamento mensal <span className="text-red-500">*</span></Label>
                 <Select value={formData.revenue} onValueChange={(value) => setFormData({ ...formData, revenue: value })} required>
                   <SelectTrigger className="mt-2 bg-input border-card-border focus:border-primary text-base md:text-lg">
                     <SelectValue placeholder="Selecione seu faturamento" />
