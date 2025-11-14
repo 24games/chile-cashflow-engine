@@ -122,14 +122,18 @@ const Section6 = () => {
 
               <div>
                 <Label htmlFor="niche" className="text-base md:text-lg">Qual seu nicho?</Label>
-                <Input
-                  id="niche"
-                  type="text"
-                  value={formData.niche}
-                  onChange={(e) => setFormData({ ...formData, niche: e.target.value })}
-                  required
-                  className="mt-2 bg-input border-card-border focus:border-primary text-base md:text-lg"
-                />
+                <Select value={formData.niche} onValueChange={(value) => setFormData({ ...formData, niche: value })} required>
+                  <SelectTrigger className="mt-2 bg-input border-card-border focus:border-primary text-base md:text-lg">
+                    <SelectValue placeholder="Selecione seu nicho" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Co-produtor">Co-produtor</SelectItem>
+                    <SelectItem value="Gestor de tráfego">Gestor de tráfego</SelectItem>
+                    <SelectItem value="Expert de cassino">Expert de cassino</SelectItem>
+                    <SelectItem value="Tipster">Tipster</SelectItem>
+                    <SelectItem value="Outro">Outro</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
