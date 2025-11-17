@@ -28,6 +28,8 @@ const Section6 = () => {
     creative: creative || "direct",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // Atualizar creative quando mudar
   useEffect(() => {
     setFormData(prev => ({
@@ -49,17 +51,45 @@ const Section6 = () => {
       toast.error("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
+
+    // Prevenir múltiplos envios simultâneos
+    if (isSubmitting) {
+      toast.error("Aguarde, enviando formulário...");
+      return;
+    }
+
+    // Verificar se já foi enviado recentemente (últimos 5 segundos)
+    const lastSubmitKey = `lastSubmit_${formData.email}`;
+    const lastSubmitTime = localStorage.getItem(lastSubmitKey);
+    const now = Date.now();
+    
+    if (lastSubmitTime && (now - parseInt(lastSubmitTime)) < 5000) {
+      toast.error("Você já enviou este formulário recentemente. Aguarde alguns segundos.");
+      return;
+    }
+    
+    setIsSubmitting(true);
     
     try {
+      // Adicionar timestamp único para identificação
+      const dataToSend = {
+        ...formData,
+        timestamp: new Date().toISOString(),
+        submissionId: `${formData.email}_${now}`
+      };
+
       const response = await fetch("https://blead-n8n-docker.y1jnlb.easypanel.host/webhook/24br", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSend),
       });
 
       if (response.ok) {
+        // Registrar envio bem-sucedido
+        localStorage.setItem(lastSubmitKey, now.toString());
+        
         toast.success("Mensagem enviada! Redirecionando para o WhatsApp...");
         setFormData({ name: "", phone: "", email: "", niche: "", revenue: "", creative: creative || "direct" });
         
@@ -71,6 +101,8 @@ const Section6 = () => {
       }
     } catch (error) {
       toast.error("Erro ao enviar mensagem. Tente novamente.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -161,10 +193,11 @@ const Section6 = () => {
               <Button
                 type="submit"
                 size="lg"
-                className="w-full bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg py-5 md:py-6 flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full bg-primary text-primary-foreground hover:neon-glow text-base md:text-lg py-5 md:py-6 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Quero ativar meu link de afiliado
-                <WhatsAppIcon />
+                {isSubmitting ? "Enviando..." : "Quero ativar meu link de afiliado"}
+                {!isSubmitting && <WhatsAppIcon />}
               </Button>
             </form>
           </Card>
