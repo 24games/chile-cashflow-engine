@@ -43,6 +43,31 @@ const Section6 = () => {
     navigate(path);
   };
 
+  // Formatar número de telefone brasileiro
+  const formatPhoneNumber = (value: string) => {
+    // Remove tudo que não é número
+    const numbers = value.replace(/\D/g, '');
+    
+    // Limita a 11 dígitos
+    const limited = numbers.slice(0, 11);
+    
+    // Aplica a máscara (99) 98765-4321
+    if (limited.length <= 2) {
+      return limited;
+    } else if (limited.length <= 6) {
+      return `(${limited.slice(0, 2)}) ${limited.slice(2)}`;
+    } else if (limited.length <= 10) {
+      return `(${limited.slice(0, 2)}) ${limited.slice(2, 6)}-${limited.slice(6)}`;
+    } else {
+      return `(${limited.slice(0, 2)}) ${limited.slice(2, 7)}-${limited.slice(7)}`;
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhoneNumber(e.target.value);
+    setFormData({ ...formData, phone: formatted });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -93,8 +118,18 @@ const Section6 = () => {
         toast.success("Mensagem enviada! Redirecionando para o WhatsApp...");
         setFormData({ name: "", phone: "", email: "", niche: "", revenue: "", creative: creative || "direct" });
         
+        // Mensagem pré-preenchida para WhatsApp
+        const message = encodeURIComponent("Quero ativar meu link de afiliado");
+        const whatsappUrl = `https://wa.me/5571991127099?text=${message}`;
+        
         setTimeout(() => {
-          window.open("https://wa.me/5571991127099", "_blank");
+          // Tentar abrir em nova aba (desktop/Android)
+          const newWindow = window.open(whatsappUrl, "_blank");
+          
+          // Fallback para iOS - usar window.location se window.open falhar
+          if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+            window.location.href = whatsappUrl;
+          }
         }, 1000);
       } else {
         toast.error("Erro ao enviar mensagem. Tente novamente.");
@@ -140,7 +175,8 @@ const Section6 = () => {
                   id="phone"
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={handlePhoneChange}
+                  placeholder="(99) 98765-4321"
                   required
                   className="mt-2 bg-input border-card-border focus:border-primary text-base md:text-lg"
                 />
